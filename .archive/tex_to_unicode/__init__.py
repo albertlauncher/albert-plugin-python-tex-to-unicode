@@ -4,6 +4,8 @@
 
 Synopsis: <trigger> <tex input>'''
 
+#  Copyright (c) 2022 Manuel Schneider
+
 import re
 import unicodedata
 
