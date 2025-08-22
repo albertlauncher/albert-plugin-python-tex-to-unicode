@@ -15,7 +15,8 @@ md_name = "TeX to Unicode"
 md_description = "Convert TeX mathmode commands to unicode characters"
 md_license = "MIT"
 md_url = "https://github.com/albertlauncher/albert-plugin-python-tex-to-unicode"
-md_authors = ["@DenverCoder1", "@ManuelSchneid3r"]
+md_authors = ["@DenverCoder1", "@ManuelSchneid3r", "@tyilo", "@BarrensZeppelin"]
+md_maintainers = ["@DenverCoder1", "@BarrensZeppelin"]
 md_lib_dependencies = ["pylatexenc"]
 
 
