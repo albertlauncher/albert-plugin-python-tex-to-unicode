@@ -9,7 +9,7 @@ from pylatexenc.latex2text import LatexNodes2Text
 
 from albert import *
 
-md_iid = "3.0"
+md_iid = "4.0"
 md_version = "2.1"
 md_name = "TeX to Unicode"
 md_description = "Convert TeX mathmode commands to unicode characters"
@@ -22,11 +22,12 @@ md_lib_dependencies = ["pylatexenc"]
 
 class Plugin(PluginInstance, TriggerQueryHandler):
 
+    icon_path = Path(__file__).parent / "tex.svg"
+
     def __init__(self):
         PluginInstance.__init__(self)
         TriggerQueryHandler.__init__(self)
         self.COMBINING_LONG_SOLIDUS_OVERLAY = "\u0338"
-        self.iconUrls = [f"file:{Path(__file__).parent}/tex.svg"]
 
     def _create_item(self, text: str, subtext: str, can_copy: bool):
         actions = []
@@ -42,7 +43,7 @@ class Plugin(PluginInstance, TriggerQueryHandler):
             id=self.id(),
             text=text,
             subtext=subtext,
-            iconUrls=self.iconUrls,
+            iconFactory=lambda: makeImageIcon(Plugin.icon_path),
             actions=actions,
         )
 
