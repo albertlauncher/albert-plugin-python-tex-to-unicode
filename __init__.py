@@ -10,7 +10,7 @@ from pylatexenc.latex2text import LatexNodes2Text
 from albert import *
 
 md_iid = "4.0"
-md_version = "2.1"
+md_version = "2.1.1"
 md_name = "TeX to Unicode"
 md_description = "Convert TeX mathmode commands to unicode characters"
 md_license = "MIT"
