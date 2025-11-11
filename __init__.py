@@ -9,7 +9,7 @@ from pylatexenc.latex2text import LatexNodes2Text
 
 from albert import *
 
-md_iid = "4.0"
+md_iid = "5.0"
 md_version = "2.1.1"
 md_name = "TeX to Unicode"
 md_description = "Convert TeX mathmode commands to unicode characters"
@@ -20,13 +20,13 @@ md_maintainers = ["@DenverCoder1", "@BarrensZeppelin"]
 md_lib_dependencies = ["pylatexenc"]
 
 
-class Plugin(PluginInstance, TriggerQueryHandler):
+class Plugin(PluginInstance, GeneratorQueryHandler):
 
     icon_path = Path(__file__).parent / "tex.svg"
 
     def __init__(self):
         PluginInstance.__init__(self)
-        TriggerQueryHandler.__init__(self)
+        GeneratorQueryHandler.__init__(self)
         self.COMBINING_LONG_SOLIDUS_OVERLAY = "\u0338"
 
     def _create_item(self, text: str, subtext: str, can_copy: bool):
@@ -50,26 +50,26 @@ class Plugin(PluginInstance, TriggerQueryHandler):
     def defaultTrigger(self):
         return "tex "
 
-    def handleTriggerQuery(self, query):
-        stripped = query.string.strip()
+    def items(self, ctx):
+        query = ctx.query.strip()
 
-        if not stripped:
+        if not query:
             return
 
-        if not stripped.startswith("\\"):
-            stripped = "\\" + stripped
+        if not query.startswith("\\"):
+            query = "\\" + query
 
         # Remove double backslashes (newlines)
-        stripped = stripped.replace("\\\\", " ")
+        query = query.replace("\\\\", " ")
 
         # pylatexenc doesn't support \not
-        stripped = stripped.replace("\\not", "@NOT@")
+        query = query.replace("\\not", "@NOT@")
 
         n = LatexNodes2Text()
-        result = n.latex_to_text(stripped)
+        result = n.latex_to_text(query)
 
         if not result:
-            query.add(self._create_item(stripped, "Type some TeX math", False))
+            yield [self._create_item(query, "Type some TeX math", False)]
             return
 
         # success
@@ -77,4 +77,4 @@ class Plugin(PluginInstance, TriggerQueryHandler):
         result = re.sub(r"@NOT@\s*(\S)", "\\1" + self.COMBINING_LONG_SOLIDUS_OVERLAY, result)
         result = result.replace("@NOT@", "")
         result = unicodedata.normalize("NFC", result)
-        query.add(self._create_item(result, "Result", True))
+        yield [self._create_item(result, "Result", True)]
