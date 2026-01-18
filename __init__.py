@@ -43,7 +43,7 @@ class Plugin(PluginInstance, GeneratorQueryHandler):
             id=self.id(),
             text=text,
             subtext=subtext,
-            icon_factory=lambda: makeImageIcon(Plugin.icon_path),
+            icon_factory=lambda: Icon.image(Plugin.icon_path),
             actions=actions,
         )
 
